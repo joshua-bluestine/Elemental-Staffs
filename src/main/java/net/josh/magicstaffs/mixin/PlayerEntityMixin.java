@@ -20,18 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
     PlayerEntity player = (PlayerEntity) (Object) this;
-    
-    /**
-     * @author
-     * @reason
-     */
-    @Overwrite
-    public void playSound(SoundEvent sound, float volume, float pitch) {
-        if (player.getOffHandStack().getItem() !=  ModItems.WARDEN_STAFF &&
-                player.getMainHandStack().getItem() != ModItems.WARDEN_STAFF) {
-            player.getWorld().playSound(player, player.getX(), player.getY(), player.getZ(), sound, player.getSoundCategory(), volume, pitch);
-        }
-    }
+
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir){
         if (player.hasStatusEffect(ModEffects.GRAVITY_EFFECT)) {
@@ -58,7 +47,7 @@ public class PlayerEntityMixin {
             shouldDamage(cir, 2, ModItems.LAVA_STAFF, ModItems.FIRE_STAFF, ModItems.STORM_STAFF);
         }
         if (source.isOf(DamageTypes.ON_FIRE)){
-            shouldDamage(cir, 2, ModItems.LAVA_STAFF, ModItems.FIRE_STAFF);
+            shouldDamage(cir, 2, ModItems.LAVA_STAFF, ModItems.FIRE_STAFF, ModItems.STORM_STAFF);
         }
     }
 

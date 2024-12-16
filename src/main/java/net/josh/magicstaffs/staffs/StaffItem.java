@@ -232,29 +232,34 @@ public class StaffItem extends Item {
                     yield ActionResult.SUCCESS;
                 }
                 case "forest_staff" -> {
-                    fireLaser(serverWorld, user, ParticleTypes.HAPPY_VILLAGER, 20);
-                    if (user.raycast(20, 0, false) instanceof BlockHitResult blockHitResult) {
-                        BlockPos blockPos = blockHitResult.getBlockPos();
-                        BlockPos blockPos2 = blockPos.offset(blockHitResult.getSide());
-                        if (useOnFertilizable(user.getStackInHand(hand), world, blockPos)) {
-                            if (!world.isClient) {
-                                user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH);
-                                world.syncWorldEvent(1505, blockPos, 15);
-                            }
-                            coolDownDamage(user, hand, 20, 20);
-                            yield ActionResult.SUCCESS;
-                        } else {
-                            BlockState blockState = world.getBlockState(blockPos);
-                            boolean bl = blockState.isSideSolidFullSquare(world, blockPos, blockHitResult.getSide());
-                            if (bl && useOnGround(user.getStackInHand(hand), world, blockPos2, blockHitResult.getSide())) {
+                    if (ModUtils.SHIFT){
+                        user.getHungerManager().add(2,1);
+                        coolDownDamage(user, hand, 200, 50);
+                    } else {
+                        fireLaser(serverWorld, user, ParticleTypes.HAPPY_VILLAGER, 20);
+                        if (user.raycast(20, 0, false) instanceof BlockHitResult blockHitResult) {
+                            BlockPos blockPos = blockHitResult.getBlockPos();
+                            BlockPos blockPos2 = blockPos.offset(blockHitResult.getSide());
+                            if (useOnFertilizable(user.getStackInHand(hand), world, blockPos)) {
                                 if (!world.isClient) {
                                     user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH);
-                                    world.syncWorldEvent(1505, blockPos2, 15);
+                                    world.syncWorldEvent(1505, blockPos, 15);
                                 }
                                 coolDownDamage(user, hand, 20, 20);
                                 yield ActionResult.SUCCESS;
                             } else {
-                                yield ActionResult.SUCCESS;
+                                BlockState blockState = world.getBlockState(blockPos);
+                                boolean bl = blockState.isSideSolidFullSquare(world, blockPos, blockHitResult.getSide());
+                                if (bl && useOnGround(user.getStackInHand(hand), world, blockPos2, blockHitResult.getSide())) {
+                                    if (!world.isClient) {
+                                        user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH);
+                                        world.syncWorldEvent(1505, blockPos2, 15);
+                                    }
+                                    coolDownDamage(user, hand, 20, 20);
+                                    yield ActionResult.SUCCESS;
+                                } else {
+                                    yield ActionResult.SUCCESS;
+                                }
                             }
                         }
                     }
@@ -262,7 +267,6 @@ public class StaffItem extends Item {
                 }
 
                 case "ice_staff" -> {
-
                     if (ModUtils.SHIFT){
                         BlockPos playerPos = user.getBlockPos();
                         int radius = 4;
@@ -373,13 +377,13 @@ public class StaffItem extends Item {
                                 }
                             }
                         }
-                        coolDownDamage(user, hand, 200, 100);
+                        coolDownDamage(user, hand, 200, 80);
                     } else {
                         for (LivingEntity jared : fireLaser(serverWorld, user, ParticleTypes.CLOUD, 20)) {
                             LightningEntity lightningEntity = new LightningEntity(EntityType.LIGHTNING_BOLT, world);
                             lightningEntity.setPos(jared.getX(), jared.getY(), jared.getZ());
                             serverWorld.spawnEntity(lightningEntity);
-                            coolDownDamage(user, hand, 40, 50);
+                            coolDownDamage(user, hand, 40, 40);
                         }
                     }
                     yield ActionResult.SUCCESS;

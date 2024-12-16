@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    "minecraft:wither_skull",
+    "minecraft:wither_skeleton_skull",
     "minecraft:stick"
   ],
   "result": {
