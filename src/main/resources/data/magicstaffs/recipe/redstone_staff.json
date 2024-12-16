@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "minecraft:redstone_block",
+    "#": "minecraft:redstone",
     "X": "minecraft:stick"
   },
   "pattern": [
