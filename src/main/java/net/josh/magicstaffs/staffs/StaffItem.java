@@ -53,6 +53,18 @@ public class StaffItem extends Item {
                 case "gravity_staff" -> {
                     if (ModUtils.SHIFT){
                         user.addStatusEffect(new StatusEffectInstance(ModEffects.GRAVITY_EFFECT, 200, 2, true, true, true), null);
+                        for (int i = 1; i < 20; ++i) {
+                            ((ServerWorld) user.getWorld()).spawnParticles(ParticleTypes.ENCHANTED_HIT,
+                                    user.getParticleX(1.0D),
+                                    user.getY() + 1,
+                                    user.getParticleZ(1.0D),
+                                    1,
+                                    user.getWorld().random.nextGaussian() * 0.2D,
+                                    user.getWorld().random.nextGaussian() * 0.2D,
+                                    user.getWorld().random.nextGaussian() * 0.2D,
+                                    0.0);
+                        }
+
                         coolDownDamage(user, hand, 500, 100);
                     } else {
                         for (LivingEntity jared : fireLaser(serverWorld, user, ParticleTypes.ENCHANTED_HIT, 20)) {
