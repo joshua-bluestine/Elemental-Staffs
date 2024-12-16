@@ -328,11 +328,11 @@ public class StaffItem extends Item {
                                     world.setBlockState(pos, Blocks.LAVA.getDefaultState().with(LEVEL, 1)); // Replace with desired block action
                                 }
                             }
-                            coolDownDamage(user, hand, 160, 50);
+                            coolDownDamage(user, hand, 160, 80);
                         } else {
                             world.setBlockState(jared.getBlockPos(), Blocks.LAVA.getDefaultState().with(LEVEL, 0));
                             ModUtils.lavaBlockPos = jared.getBlockPos();
-                            coolDownDamage(user, hand, 80, 20);
+                            coolDownDamage(user, hand, 80, 40);
                         }
                         entityHit = true;
                     }

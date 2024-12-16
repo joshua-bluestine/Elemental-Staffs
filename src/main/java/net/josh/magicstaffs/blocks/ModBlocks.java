@@ -29,20 +29,12 @@ public class ModBlocks {
         return (Block)Registry.register(Registries.BLOCK, key, block);
     }
 
-    public static Block register(RegistryKey<Block> key, AbstractBlock.Settings settings) {
-        return register(key, Block::new, settings);
-    }
-
     private static RegistryKey<Block> keyOf(String id) {
         return RegistryKey.of(RegistryKeys.BLOCK, Identifier.ofVanilla(id));
     }
 
     private static Block register(String id, Function<AbstractBlock.Settings, Block> factory, AbstractBlock.Settings settings) {
         return register(keyOf(id), factory, settings);
-    }
-
-    private static Block register(String id, AbstractBlock.Settings settings) {
-        return register(id, Block::new, settings);
     }
 
     public static void registerBlocks() {
