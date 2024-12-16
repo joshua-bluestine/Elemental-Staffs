@@ -1,15 +1,11 @@
 package net.josh.magicstaffs.staffs;
 
-import net.josh.magicstaffs.CustomExplosionBehavior;
 import net.josh.magicstaffs.ModUtils;
 import net.josh.magicstaffs.blocks.ModBlocks;
 import net.josh.magicstaffs.effects.ModEffects;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageSources;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +13,6 @@ import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.particle.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -31,20 +26,14 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.explosion.AdvancedExplosionBehavior;
-import net.minecraft.world.explosion.Explosion;
-import net.minecraft.world.explosion.ExplosionBehavior;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
+
 
 import static net.minecraft.block.FluidBlock.LEVEL;
 
@@ -233,8 +222,21 @@ public class StaffItem extends Item {
                 }
                 case "forest_staff" -> {
                     if (ModUtils.SHIFT){
-                        user.getHungerManager().add(2,1);
-                        coolDownDamage(user, hand, 200, 50);
+                        if (user.getHungerManager().isNotFull()) {
+                            user.getHungerManager().add(2, 1);
+                            for (int i = 1; i < 20; ++i) {
+                                serverWorld.spawnParticles(ParticleTypes.HAPPY_VILLAGER,
+                                        user.getParticleX(1.0D),
+                                        user.getY() + 1,
+                                        user.getParticleZ(1.0D),
+                                        1,
+                                        world.random.nextGaussian() * 0.2D,
+                                        world.random.nextGaussian() * 0.2D,
+                                        world.random.nextGaussian() * 0.2D,
+                                        0.0);
+                            }
+                            coolDownDamage(user, hand, 200, 50);
+                        }
                     } else {
                         fireLaser(serverWorld, user, ParticleTypes.HAPPY_VILLAGER, 20);
                         if (user.raycast(20, 0, false) instanceof BlockHitResult blockHitResult) {

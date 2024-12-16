@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
+    @Unique
     PlayerEntity player = (PlayerEntity) (Object) this;
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)

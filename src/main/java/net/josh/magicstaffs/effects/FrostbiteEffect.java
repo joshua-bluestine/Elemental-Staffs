@@ -7,18 +7,17 @@ import net.minecraft.server.world.ServerWorld;
 
 public class FrostbiteEffect extends StatusEffect {
 
-    // Constructor to set the effect type (beneficial) and color (blue)
     public FrostbiteEffect() {
-        super(StatusEffectCategory.BENEFICIAL, 0x0000FF); // 0x0000FF is the color blue
+        super(StatusEffectCategory.BENEFICIAL, 0x0000FF);
     }
 
     @Override
     public boolean applyUpdateEffect(ServerWorld world, LivingEntity entity, int amplifier) {
-        return true;        // Additional effects can be applied here if necessary, like health regeneration
+        return true;
     }
 
     @Override
     public boolean isInstant() {
-        return false;  // This effect is not instant (it takes time to be applied)
+        return false;
     }
 }

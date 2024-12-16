@@ -25,7 +25,6 @@ public class RedstoneStaffBlock extends Block {
     }
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        //return BOUNDING_SHAPE;
         return VoxelShapes.empty();
     }
     public RedstoneStaffBlock(AbstractBlock.Settings settings) {
