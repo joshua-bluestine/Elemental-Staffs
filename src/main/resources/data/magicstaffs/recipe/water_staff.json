@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:heart_of_the_sea",
+    "minecraft:stick"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magicstaffs:water_staff"
+  }
+}

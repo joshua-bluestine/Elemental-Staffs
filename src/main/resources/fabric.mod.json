@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "magicstaffs",
+  "version": "${version}",
+  "name": "magicstaffs",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/magicstaffs/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.josh.magicstaffs.client.MagicstaffsClient"
+    ],
+    "main": [
+      "net.josh.magicstaffs.Magicstaffs"
+    ]
+  },
+  "mixins": [
+    "magicstaffs.mixins.json",
+    {
+      "config": "magicstaffs.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

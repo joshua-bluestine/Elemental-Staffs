@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "magicstaffs:item/cloaking_staff_layer2"
+  }
+}

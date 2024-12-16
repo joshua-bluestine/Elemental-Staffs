@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:lightning_rod",
+    "%": "minecraft:iron_ingot",
+    "X": "minecraft:stick"
+  },
+  "pattern": [
+    "###",
+    "%X%",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magicstaffs:lightning_staff"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "block.magicstaffs.redstone_staff_block": "See Through",
+
+  "effect.magicstaffs.gravity_effect": "No Gravity",
+  "effect.magicstaffs.lightning_effect": "Lightning Effect",
+  "effect.magicstaffs.lightning_effect_spread": "Lightning Effect",
+
+  "item.magicstaffs.fire_staff": "Fire Staff",
+  "item.magicstaffs.cloaking_staff": "Cloaking Staff",
+  "item.magicstaffs.heal_staff": "Heal Staff",
+  "item.magicstaffs.warden_staff": "Warden Staff",
+  "item.magicstaffs.redstone_staff": "Redstone Staff",
+  "item.magicstaffs.wither_staff": "Wither Staff",
+  "item.magicstaffs.lava_staff": "Lava Staff",
+  "item.magicstaffs.ender_staff": "Ender Staff",
+  "item.magicstaffs.ice_staff": "Ice Staff",
+  "item.magicstaffs.forest_staff": "Forest Staff",
+  "item.magicstaffs.gravity_staff": "Gravity Staff",
+  "item.magicstaffs.lightning_staff": "Lightning Staff",
+  "item.magicstaffs.storm_staff": "Storm Staff",
+  "item.magicstaffs.water_staff": "Water Staff",
+  "item.magicstaffs.wind_staff": "Wind Staff",
+  "itemgroup.magicstaffs.magic_staffs": "Magic Staffs"
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:nether_star",
+    "minecraft:stick"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magicstaffs:wither_staff"
+  }
+}
