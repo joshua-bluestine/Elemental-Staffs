@@ -42,7 +42,7 @@ public class LivingEntityMixin {
                     for (LivingEntity jared : entity.getWorld().getEntitiesByClass(LivingEntity.class, box, (livingEntity) -> true)) {
                         if (jared != entity && !(jared instanceof PlayerEntity)) {
                             jared.damage((ServerWorld) jared.getWorld(), jared.getDamageSources().magic(), 4);
-                            StaffItem.fireLaser(entity.getWorld(), entity, ParticleTypes.ELECTRIC_SPARK, jared);
+                            StaffItem.fireLaserForLightningEffect(entity.getWorld(), entity, ParticleTypes.ELECTRIC_SPARK, jared);
                         }
                     }
                 }
@@ -68,7 +68,7 @@ public class LivingEntityMixin {
                         if (jared != entity && !(jared instanceof PlayerEntity)) {
                             jared.addStatusEffect(new StatusEffectInstance(ModEffects.LIGHTNING_EFFECT, 40, 1, true, true), jared);
                             jared.damage((ServerWorld) jared.getWorld(), jared.getDamageSources().magic(), 4);
-                            StaffItem.fireLaser(entity.getWorld(), entity, ParticleTypes.ELECTRIC_SPARK, jared);
+                            StaffItem.fireLaserForLightningEffect(entity.getWorld(), entity, ParticleTypes.ELECTRIC_SPARK, jared);
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 package net.josh.magicstaffs.staffs;
 
+import net.josh.magicstaffs.Magicstaffs;
 import net.josh.magicstaffs.ModUtils;
 import net.josh.magicstaffs.blocks.ModBlocks;
 import net.josh.magicstaffs.effects.ModEffects;
@@ -44,6 +45,89 @@ public class StaffItem extends Item {
         super(settings);
         this.name = name;
     }
+
+    @Override
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        Random random = target.getWorld().random;
+
+        if (!target.getWorld().isClient() && attacker instanceof PlayerEntity) {
+            PlayerEntity user = (PlayerEntity) attacker;
+            return switch (this.name) {
+                case "cloaking_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 200, 2, true, true, true), user);
+                    yield true;
+                }
+                case "lava_staff" -> {
+                    target.setOnFireFor(5);
+                    yield true;
+                }
+                case "fire_staff" -> {
+                    target.setOnFireFor(3);
+                    yield true;
+                }
+                case "gravity_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 80, 1, true, true), user);
+                    yield true;
+                }
+                case "lightning_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 100, 1, true, true), user);
+                    yield true;
+                }
+                case "heal_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 100, 1, true, true), user);
+                    yield true;
+                }
+                case "warden_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 100, 1, true, true), user);
+                    yield true;
+                }
+                case "ender_staff" -> {
+                    BlockPos currentPos = target.getBlockPos();
+                    BlockPos newPos;
+                    do {
+                        double x = currentPos.getX() + (random.nextDouble() - 0.5) * 40;
+                        double y = currentPos.getY() + (random.nextDouble() - 0.5) * 40;
+                        double z = currentPos.getZ() + (random.nextDouble() - 0.5) * 40;
+                        newPos = new BlockPos((int) x, (int) y, (int) z);
+                    } while (!isSafeLocation(target.getWorld(), newPos));
+                    target.teleport(newPos.getX() + 0.5, newPos.getY(), newPos.getZ() + 0.5, true);
+                    yield true;
+                }
+                case "forest_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 0, true, true), user);
+                    yield true;
+                }
+                case "ice_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 2, true, true), user);
+                    yield true;
+                }
+                case "wither_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 100, 1, true, true), user);
+                    yield true;
+                }
+                case "storm_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, 100, 1, true, true), user);
+                    yield true;
+                }
+                case "water_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.WATER_BREATHING, 200, 1, true, true), user);
+                    yield true;
+                }
+                case "wind_staff" -> {
+                    Vec3d knockback = user.getRotationVector().multiply(2.0);
+                    target.addVelocity(knockback.x, knockback.y, knockback.z);
+                    yield true;
+                }
+                case "redstone_staff" -> {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 100, 1, true, true), user);
+                    yield true;
+                }
+                default -> false;
+            };
+        }
+        return false;
+    }
+
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
@@ -420,59 +504,59 @@ public class StaffItem extends Item {
                     }
                     yield ActionResult.SUCCESS;
                 }
-                /*
+
+
                 case "wind_staff" -> {
-                    if (ModUtils.SHIFT){
-                        Position pos = user.getPos();
-
-                        CustomExplosionBehavior explosionBehavior = new CustomExplosionBehavior();
-                        int radius = 1;
-                        for (int x = -radius; x <= radius; x++) {
-                            for (int z = -radius; z <= radius; z++) {
-                                world.createExplosion(user,
-                                        null,
-                                        explosionBehavior,
-                                        pos.getX() + x,
-                                        pos.getY(),
-                                        pos.getZ() + z,
-                                        2,
-                                        false,
-                                        World.ExplosionSourceType.NONE,
-                                        ParticleTypes.EXPLOSION,
-                                        ParticleTypes.EXPLOSION_EMITTER,
-                                        SoundEvents.ENTITY_GENERIC_EXPLODE);
+                    if (ModUtils.SHIFT) {
+                        int staffDamage = 0;
+                        int staffCooldown = 0;
+                        for (LivingEntity jared : fireRadialLaser(serverWorld, user, ParticleTypes.CLOUD, 5.0)) {
+                            double minDistanceSquared = 10.0;
+                            double dz, dx;
+                            if (user.getX() > jared.getX()) {
+                                dx = user.getX() - jared.getX();
+                            } else {
+                                dx = jared.getX() - user.getX();
                             }
-                        }
-                        coolDownDamage(user, hand, 160, 80);
+                            if (user.getZ() > jared.getZ()) {
+                                dz = user.getZ() - jared.getZ();
+                            } else {
+                                dz = jared.getZ() - user.getZ();
+                            }
+                            double angle = Math.atan2(dz, dx);
+                            double newX, newZ;
+                            double cosDistance = 4 + (Math.cos(angle) * Math.sqrt(minDistanceSquared));
+                            double sinDistance = 4 + (Math.sin(angle) * Math.sqrt(minDistanceSquared));
 
+                            if (user.getX() > jared.getX()) {
+                                newX = user.getX() - cosDistance;
+                            } else {
+                                newX = user.getX() + cosDistance;
+                            }
+
+                            if (user.getZ() > jared.getZ()) {
+                                newZ = user.getZ() - sinDistance;
+                            } else {
+                                newZ = user.getZ() + sinDistance;
+                            }
+                            staffDamage = 40;
+                            staffCooldown = 120;
+                            jared.refreshPositionAndAngles(newX, jared.getY(), newZ, jared.getYaw(), jared.getPitch());
+                        }
+                        coolDownDamage(user, hand, staffCooldown, staffDamage);
                     } else {
+                        int staffDamage = 0;
+                        int staffCooldown = 0;
                         for (LivingEntity jared : fireLaser(serverWorld, user, ParticleTypes.CLOUD, 20)) {
-                            CustomExplosionBehavior explosionBehavior = new CustomExplosionBehavior();
-
-                            Vec3d directionToPlayer = user.getPos().subtract(jared.getPos()).normalize();
-                            Vec3d pos = jared.getPos().add(directionToPlayer.multiply(1));
-
-                            world.createExplosion(user,
-                                    null,
-                                    explosionBehavior,
-                                    pos.getX(),
-                                    pos.getY(),
-                                    pos.getZ(),
-                                    4,
-                                    false,
-                                    World.ExplosionSourceType.NONE,
-                                    ParticleTypes.EXPLOSION,
-                                    ParticleTypes.EXPLOSION_EMITTER,
-                                    SoundEvents.ENTITY_GENERIC_EXPLODE);
-
-                            coolDownDamage(user, hand, 40, 20);
+                            jared.addVelocity(user.getRotationVector().multiply(2.0));
+                            staffDamage = 10;
+                            staffCooldown = 40;
                         }
+                        coolDownDamage(user, hand, staffCooldown, staffDamage);
                     }
                     yield ActionResult.SUCCESS;
                 }
 
-
-                 */
                 case "redstone_staff" -> {
                     fireLaser(serverWorld, user, new DustParticleEffect(1, 1.0F), 40);
                     if (user.raycast(40, 0, false) instanceof BlockHitResult blockHitResult) {
@@ -531,7 +615,7 @@ public class StaffItem extends Item {
         }
         return finalList;
     }
-    public static void fireLaser(World world, LivingEntity user, ParticleEffect particleType, LivingEntity entity) {
+    public static void fireLaserForLightningEffect(World world, LivingEntity user, ParticleEffect particleType, LivingEntity entity) {
         double beamDistance = user.distanceTo(entity);
         if (!world.isClient()) {
             Vec3d playerPos = user.getPos();
@@ -641,5 +725,51 @@ public class StaffItem extends Item {
         } else {
             return false;
         }
+    }
+
+    public static List<LivingEntity> fireRadialLaser(World world, LivingEntity user, ParticleEffect particleType, double maxRadius) {
+        List<LivingEntity> finalList = new ArrayList<>(List.of());
+
+        if (!world.isClient()) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            Vec3d playerPos = user.getPos();
+
+            // Create an expanding ring of particles around the player
+            for (double radius = 0.1; radius <= maxRadius; radius += 0.5) {
+                for (double angle = 0; angle < 2 * Math.PI; angle += Math.PI / 16) {
+                    double x = playerPos.x + radius * Math.cos(angle);
+                    double z = playerPos.z + radius * Math.sin(angle);
+                    Vec3d particlePos = new Vec3d(x, playerPos.y, z);
+                    serverWorld.spawnParticles(particleType, particlePos.x, particlePos.y + 1, particlePos.z, 1, 0.0, 0.0, 0.0, 0.0);
+                }
+            }
+
+            // Create a box around the player to check for entities
+            Box beamBox = new Box(playerPos.add(-maxRadius, -maxRadius, -maxRadius), playerPos.add(maxRadius, maxRadius, maxRadius));
+
+            List<LivingEntity> entitiesInPath = world.getEntitiesByClass(LivingEntity.class, beamBox, e -> e != user);
+            for (LivingEntity jared : entitiesInPath) {
+                // Check if the entity is within the radius
+                if (jared.distanceTo(user) <= maxRadius) {
+                    for (int i = 1; i < 20; ++i) {
+                        serverWorld.spawnParticles(particleType,
+                                jared.getParticleX(1.0D),
+                                jared.getY() + 1,
+                                jared.getParticleZ(1.0D),
+                                1,
+                                world.random.nextGaussian() * 0.2D,
+                                world.random.nextGaussian() * 0.2D,
+                                world.random.nextGaussian() * 0.2D,
+                                0.0);
+                    }
+                    finalList.add(jared);
+                }
+            }
+        }
+        return finalList;
+    }
+    private boolean isSafeLocation(World world, BlockPos pos) {
+        BlockState blockState = world.getBlockState(pos);
+        return blockState.isAir() && world.getBlockState(pos.down()).isFullCube(world, pos.down());
     }
 }

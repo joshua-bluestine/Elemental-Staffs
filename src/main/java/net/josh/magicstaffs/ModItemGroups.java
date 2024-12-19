@@ -23,7 +23,7 @@ public class ModItemGroups {
                         entries.add(ModItems.STORM_STAFF);
                         entries.add(ModItems.FOREST_STAFF);
                         entries.add(ModItems.WATER_STAFF);
-                        //entries.add(ModItems.WIND_STAFF);
+                        entries.add(ModItems.WIND_STAFF);
                         entries.add(ModItems.WITHER_STAFF);
                         entries.add(ModItems.REDSTONE_STAFF);
                         entries.add(ModItems.LAVA_STAFF);
